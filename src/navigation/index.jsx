@@ -9,6 +9,9 @@ import { Sidebar } from "../components/Sidebar/Sidebar";
 import { StudyGroupCategory } from "../pages/Admin/StudyGroupCategory";
 import { Teachers } from "../pages/Admin/Teachers";
 import { StudyGroups } from "../pages/Admin/StudyGroups";
+import { StudyGroup } from "../pages/Admin/StudyGroup";
+import { Lessons } from "../pages/Admin/Lessons";
+import { CreateLesson } from "../pages/Admin/CreateLesson";
 // import { Footer } from "../components/Footer";
 
 const Navigation = () => {
@@ -29,6 +32,9 @@ const Navigation = () => {
               path="/admin/study-group-categories"
               element={<StudyGroupCategory />}
             />
+            <Route path={`/admin/study-groups/:id`} element={<StudyGroup />} />
+            <Route path="/admin/lessons" element={<Lessons />} />
+            <Route path="/admin/lesson/create" element={<CreateLesson />} />
           </Routes>
           {/* <Footer /> */}
         </div>

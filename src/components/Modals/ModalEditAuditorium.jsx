@@ -19,7 +19,7 @@ export const ModalEditAuditorium = ({ auditorium, isOpen, setIsOpen }) => {
     try {
       const response = await axiosPrivate.put(
         `/api/v1/admin/auditorium/${auditorium.id}`,
-        JSON.stringify({ name: name }),
+        JSON.stringify({ name }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,

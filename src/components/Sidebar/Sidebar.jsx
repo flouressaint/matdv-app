@@ -59,6 +59,18 @@ export const Sidebar = () => {
               Учебные группы
             </NavLink>
           </li>
+          <li className="mr-3 ml-4 lg:w-full">
+            <NavLink
+              to="/admin/lessons"
+              className={({ isActive }) =>
+                isActive
+                  ? "inline-block lg:w-full rounded lg:rounded-lg py-2 px-4 lg:p-4 bg-violet-200 hover:bg-violet-200 dark:bg-violet-700 dark:hover:bg-violet-600"
+                  : "inline-block lg:w-full rounded lg:rounded-lg py-2 px-4 lg:p-4 hover:bg-violet-200 dark:hover:bg-violet-600"
+              }
+            >
+              Занятия
+            </NavLink>
+          </li>
         </ul>
       </div>
     </div>

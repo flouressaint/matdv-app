@@ -3,9 +3,11 @@ import { useAxiosPrivate } from "../../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 import { StudyGroupItem } from "../../../components/StudyGroupItem";
 import { StudyGroupForm } from "../../../components/Forms/StudyGroupForm";
+import { LessonItem } from "../../../components/LessonItem";
+import { Timetable } from "../../../components/Timetable";
 
-export const StudyGroups = () => {
-  const [studyGroups, setStudyGroups] = useState([]);
+export const Lessons = () => {
+  const [lessons, setLessons] = useState([]);
   const [categories, setCategories] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const axiosPrivate = useAxiosPrivate();
@@ -47,39 +49,13 @@ export const StudyGroups = () => {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    const getStudyGroups = async () => {
+    const getLessons = async () => {
       try {
-        const response = await axiosPrivate.get("/api/v1/admin/studyGroups", {
+        const response = await axiosPrivate.get("/api/v1/admin/lessons", {
           signal,
         });
         console.log(response.data);
-        isMounted && setStudyGroups(response.data.items);
-      } catch (err) {
-        console.error(err);
-        navigate("/login", { state: { from: location }, replace: true });
-      }
-    };
-
-    const getStudyGroupCategories = async () => {
-      try {
-        const response = await axiosPrivate.get("/api/v1/studyGroupCategory", {
-          signal,
-        });
-        console.log(response.data);
-        isMounted && setCategories(response.data.items);
-      } catch (err) {
-        console.error(err);
-        navigate("/login", { state: { from: location }, replace: true });
-      }
-    };
-
-    const getTeachers = async () => {
-      try {
-        const response = await axiosPrivate.get("/api/v1/admin/teachers", {
-          signal,
-        });
-        console.log(response.data);
-        isMounted && setTeachers(response.data.items);
+        isMounted && setLessons(response.data.items);
       } catch (err) {
         console.error(err);
         navigate("/login", { state: { from: location }, replace: true });
@@ -87,9 +63,7 @@ export const StudyGroups = () => {
     };
 
     if (effectRun.current) {
-      getStudyGroups();
-      getStudyGroupCategories();
-      getTeachers();
+      getLessons();
     }
 
     return () => {
@@ -101,22 +75,18 @@ export const StudyGroups = () => {
 
   return (
     <div className="flex flex-col p-5 gap-2 bg-slate-600 w-full text-white">
+      <button
+        onClick={() => navigate("/admin/lesson/create")}
+        className="bg-slate-800 flex flex-row gap-2 text-white hover:bg-zinc-700 w-1/2 lg:w-2/5 py-4 px-4 rounded-xl"
+      >
+        Создать занятие
+      </button>
       <h1 className="text-red-500">{errMsg}</h1>
-      {teachers.length > 0 && (
-        <StudyGroupForm
-          addStudyGroup={addStudyGroup}
-          teachers={teachers}
-          categories={categories}
-          setErrMsg={setErrMsg}
-        />
-      )}
       <div className="flex flex-col my-5 gap-5">
-        {studyGroups.length === 0 ? (
+        {lessons.length === 0 ? (
           <p>Нет учебных групп</p>
         ) : (
-          studyGroups.map((group) => (
-            <StudyGroupItem key={group.id} group={group} />
-          ))
+          <Timetable lessons={lessons} />
         )}
       </div>
     </div>

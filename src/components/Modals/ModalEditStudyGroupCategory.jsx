@@ -23,7 +23,7 @@ export const ModalEditStudyGroupCategory = ({
     try {
       const response = await axiosPrivate.patch(
         `/api/v1/admin/studyGroupCategory/${category.id}`,
-        JSON.stringify({ name: name }),
+        JSON.stringify({ name }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,

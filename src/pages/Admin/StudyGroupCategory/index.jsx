@@ -64,7 +64,7 @@ export const StudyGroupCategory = () => {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    const getAuditoriums = async () => {
+    const getCategories = async () => {
       try {
         const response = await axiosPrivate.get("/api/v1/studyGroupCategory", {
           signal,
@@ -79,7 +79,7 @@ export const StudyGroupCategory = () => {
     };
 
     if (effectRun.current) {
-      getAuditoriums();
+      getCategories();
     }
 
     return () => {
