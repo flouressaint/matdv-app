@@ -86,7 +86,7 @@ export const StudyGroup = () => {
       controller.abort();
       effectRun.current = true;
     };
-  }, [id, axiosPrivate, navigate, isEdit]);
+  }, [id, axiosPrivate, navigate, isEdit, location]);
 
   const handleDelete = async (id) => {
     try {
@@ -127,7 +127,7 @@ export const StudyGroup = () => {
           console.log(response.data);
           setIsEdit(false);
         });
-      console.log(response.data);
+      console.log(response);
     } catch (err) {
       console.log(err);
       if (!err?.response) {
