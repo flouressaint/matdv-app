@@ -26,6 +26,85 @@ export const ModalAddHometask = ({ lesson, isOpen, setIsOpen }) => {
   );
   const [errMsg, setErrMsg] = useState("");
 
+  const getStudyGroup = async () => {
+    try {
+      const response = await axiosPrivate.get(
+        `/api/v1/teacher/studyGroup/${lesson.studyGroup.id}`
+      );
+      setScores(
+        response.data.students.map((s) => {
+          return {
+            studentId: s.id,
+            name: s.name,
+            value: 0,
+          };
+        })
+      );
+      console.log(
+        response.data.students.map((s) => {
+          return {
+            studentId: s.id,
+            name: s.name,
+            value: 0,
+          };
+        })
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getInitialScores = async () => {
+    try {
+      const response = await axiosPrivate.get(
+        `/api/v1/teacher/lesson/${lesson.id}/scores`
+      );
+      console.log(response.data);
+      setScores(
+        scores.map((s) => {
+          if (response.data.items.find((ss) => ss.studentId === s.studentId)) {
+            return {
+              ...s,
+              value: response.data.items.find(
+                (ss) => ss.studentId === s.studentId
+              ).value,
+            };
+          }
+          return s;
+        })
+      );
+      console.log(
+        scores.map((s) => {
+          if (response.data.items.find((ss) => ss.studentId === s.studentId)) {
+            return {
+              ...s,
+              value: response.data.items.find(
+                (ss) => ss.studentId === s.studentId
+              ).value,
+            };
+          }
+          return s;
+        })
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const [scores, setScores] = useState();
+
+  const [count, setCount] = useState(0);
+  if (isOpen && count === 0) {
+    getStudyGroup();
+    setCount(1);
+  }
+
+  if (count === 1 && scores !== undefined) {
+    getInitialScores();
+    setCount(2);
+  }
+
   const handleEdit = async (hometask) => {
     if (!hometask.description) {
       setErrMsg("Описание домашнего задания не может быть пустым.");
@@ -43,7 +122,22 @@ export const ModalAddHometask = ({ lesson, isOpen, setIsOpen }) => {
           withCredentials: true,
         }
       );
+      const scoreResponse = await axiosPrivate.post(
+        `/api/v1/teacher/lesson/${lesson.id}/scores`,
+        JSON.stringify({
+          scores: scores
+            .filter((s) => s.value !== 0)
+            .map((s) => {
+              return { studentId: s.studentId, value: parseInt(s.value) };
+            }),
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
       console.log(response.data);
+      console.log(scoreResponse.data);
       setIsOpen(false);
       lesson = Object.assign(lesson, { ...lesson, hometask });
     } catch (err) {
@@ -148,6 +242,35 @@ export const ModalAddHometask = ({ lesson, isOpen, setIsOpen }) => {
                                   focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
                             />
                           </Field>
+                          <div>Ученики</div>
+                          {!scores && <div>loading</div>}
+                          {scores &&
+                            scores.map((student) => (
+                              <div key={student.studentId}>
+                                <div className="flex flex-row justify-between items-center border-b  border-gray-500 hover:bg-gray-500 rounded-md p-2">
+                                  <div className="text-sm font-bold">
+                                    {student.name}
+                                  </div>
+                                  <input
+                                    type="number"
+                                    min={0}
+                                    max={hometask.maxScore}
+                                    value={student.value}
+                                    onChange={(e) => {
+                                      setScores(
+                                        scores.map((s) =>
+                                          s.studentId === student.studentId
+                                            ? { ...s, value: e.target.value }
+                                            : s
+                                        )
+                                      );
+                                    }}
+                                    className="w-16 text-center resize-none rounded-lg bg-white/5 py-1.5 px-3 text-sm/6 text-white
+                      focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+                                  />
+                                </div>
+                              </div>
+                            ))}
                         </div>
                       </div>
                     </div>
