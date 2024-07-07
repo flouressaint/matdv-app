@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useAxiosPrivate } from "../../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 import { StudyGroupItem } from "../../../components/StudyGroupItem";
-import { StudyGroupForm } from "../../../components/Forms/StudyGroupForm";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { ModalCreateStudyGroup } from "../../../components/Modals/ModalCreateStudyGroup";
 
 export const StudyGroups = () => {
   const [studyGroups, setStudyGroups] = useState([]);
@@ -27,6 +28,7 @@ export const StudyGroups = () => {
         }
       );
       console.log(response.data);
+      setCreateIsOpen(false);
       setCount(count + 1);
     } catch (err) {
       console.log(err);
@@ -38,6 +40,26 @@ export const StudyGroups = () => {
         setErrMsg("Недостаточно прав");
       } else {
         setErrMsg("Не удалось добавить учебную группу");
+      }
+    }
+  };
+
+  const deleteStudyGroup = async (id) => {
+    try {
+      const response = await axiosPrivate.delete(
+        `/api/v1/admin/studyGroup/${id}`
+      );
+      console.log(response.data);
+      // navigate to home page
+      navigate("/admin/study-groups");
+    } catch (err) {
+      console.log(err);
+      if (!err?.response) {
+        setErrMsg("Нет ответа от сервера");
+      } else if (err.response?.status === 401) {
+        setErrMsg("Недостаточно прав");
+      } else {
+        setErrMsg("Не удалось удалить учебную группу");
       }
     }
   };
@@ -99,26 +121,44 @@ export const StudyGroups = () => {
     };
   }, [count, axiosPrivate, location, navigate]);
 
+  const [createIsOpen, setCreateIsOpen] = useState(false);
+
   return (
     <div className="flex flex-col p-5 gap-2 bg-slate-600 w-full text-white">
+      <div className="flex flex-row justify-between items-center">
+        <div className="text-3xl font-bold">Учебные группы</div>
+        <button
+          onClick={() => setCreateIsOpen(!createIsOpen)}
+          className="text-base flex flex-row gap-2 bg-slate-500 p-2 rounded-lg hover:bg-slate-400"
+        >
+          <PlusCircleIcon className="size-6" />
+          <div>Добавить учебную группу</div>
+        </button>
+      </div>
       <h1 className="text-red-500">{errMsg}</h1>
-      {teachers.length > 0 && (
-        <StudyGroupForm
-          addStudyGroup={addStudyGroup}
-          teachers={teachers}
-          categories={categories}
-          setErrMsg={setErrMsg}
-        />
-      )}
-      <div className="flex flex-col my-5 gap-5">
+      <div className="flex flex-col my-5 gap-2">
         {studyGroups.length === 0 ? (
           <p>Нет учебных групп</p>
         ) : (
           studyGroups.map((group) => (
-            <StudyGroupItem key={group.id} group={group} />
+            <StudyGroupItem
+              key={group.id}
+              group={group}
+              deleteGroup={deleteStudyGroup}
+              teachers={teachers}
+              categories={categories}
+            />
           ))
         )}
       </div>
+      <ModalCreateStudyGroup
+        addStudyGroup={addStudyGroup}
+        teachers={teachers}
+        categories={categories}
+        setErrMsg={setErrMsg}
+        isOpen={createIsOpen}
+        setIsOpen={setCreateIsOpen}
+      />
     </div>
   );
 };

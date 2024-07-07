@@ -90,7 +90,7 @@ export const StudyGroupCategory = () => {
   }, [count, axiosPrivate, location, navigate]);
 
   return (
-    <div className="flex flex-col m-5 gap-2">
+    <div className="flex flex-col m-5 gap-2 lg:w-full">
       <h1 className="text-red-500">{errMsg}</h1>
       <StudyGroupCategoryForm addCategory={addCategory} setErrMsg={setErrMsg} />
       <div className="flex flex-col my-5 gap-5">

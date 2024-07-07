@@ -31,8 +31,8 @@ export const StudyGroupCategoryItem = ({ category, deleteCategory }) => {
         setIsOpen={setIsOpenEdit}
       />
       <ModalDelete
-        title="удалить категорию"
-        body="удалить категорию?"
+        title="Удаление категории"
+        body="Вы действительно хотите удалить категорию учебных групп? Все учебные группы данной категории также будут удалены."
         isOpen={isOpenDelete}
         setIsOpen={setIsOpenDelete}
         handleDelete={() => deleteCategory(category.id)}

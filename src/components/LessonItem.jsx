@@ -16,7 +16,12 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { ModalDelete } from "../components/Modals/ModalDelete";
 import { ModalEditLesson } from "./Modals/ModalEditLesson";
 
-export const LessonItem = ({ lesson, deleteLesson }) => {
+export const LessonItem = ({
+  lesson,
+  auditoriums,
+  studyGroups,
+  deleteLesson,
+}) => {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
@@ -78,12 +83,14 @@ export const LessonItem = ({ lesson, deleteLesson }) => {
       </div>
       <ModalEditLesson
         lesson={lesson}
+        auditoriums={auditoriums}
+        studyGroups={studyGroups}
         isOpen={isOpenEdit}
         setIsOpen={setIsOpenEdit}
       />
       <ModalDelete
-        title="удалить урок"
-        body="удалить урок?"
+        title="Удаление занятия"
+        body="Вы действительно хотите удалить занятие из расписания? Все данные о занятии будут утеряны."
         handleDelete={() => deleteLesson(lesson.id)}
         isOpen={isOpenDelete}
         setIsOpen={setIsOpenDelete}
@@ -95,4 +102,6 @@ export const LessonItem = ({ lesson, deleteLesson }) => {
 LessonItem.propTypes = {
   lesson: PropTypes.object.isRequired,
   deleteLesson: PropTypes.func.isRequired,
+  auditoriums: PropTypes.array.isRequired,
+  studyGroups: PropTypes.array.isRequired,
 };

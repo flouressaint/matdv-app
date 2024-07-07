@@ -1,50 +1,38 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import { MyCombobox } from "../MyComboBox";
 import {
   Transition,
   TransitionChild,
   Dialog,
-  DialogTitle,
   DialogPanel,
+  DialogTitle,
 } from "@headlessui/react";
-import { PencilIcon } from "@heroicons/react/24/outline";
-import { axiosPrivate } from "../../api/axios";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { ErrorNotification } from "../Notification";
 
-export const ModalEditAuditorium = ({ auditorium, isOpen, setIsOpen }) => {
+export const ModalCreateStudyGroup = ({
+  addStudyGroup,
+  teachers,
+  categories,
+  isOpen,
+  setIsOpen,
+}) => {
+  const [value, setValue] = useState("");
   const cancelButtonRef = useRef(null);
-  const [value, setValue] = useState(auditorium.name);
-  const [errMsg, setErrMsg] = useState("");
-
-  const handleEdit = async (name) => {
-    try {
-      const response = await axiosPrivate.put(
-        `/api/v1/admin/auditorium/${auditorium.id}`,
-        JSON.stringify({ name }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      console.log(response.data);
-      setIsOpen(false);
-      auditorium.name = name;
-    } catch (err) {
-      console.log(err);
-      if (!err?.response) {
-        setErrMsg("Нет ответа от сервера");
-      } else if (err.response?.status === 409) {
-        setErrMsg("Аудитория с таким именем уже существует");
-      } else if (err.response?.status === 401) {
-        setErrMsg("Недостаточно прав");
-      } else {
-        setErrMsg("Не удалось изменить аудиторию");
-      }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (value) {
+      console.log(value);
+      addStudyGroup(value, selectedTeacher.id, selectedCategory.id);
+      setValue("");
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => setValue(auditorium.name), 500);
-  }, [isOpen, auditorium.name]);
+  const [selectedTeacher, setSelectedTeacher] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState({});
+
+  const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
     setErrMsg("");
@@ -69,7 +57,7 @@ export const ModalEditAuditorium = ({ auditorium, isOpen, setIsOpen }) => {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </TransitionChild>
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed inset-0 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <TransitionChild
               as={Fragment}
@@ -82,51 +70,60 @@ export const ModalEditAuditorium = ({ auditorium, isOpen, setIsOpen }) => {
             >
               <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleEdit(value);
-                  }}
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-2 bg-slate-600 w-full text-white"
                 >
-                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                  <div className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
-                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-violet-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <PencilIcon className="h-6 w-6" aria-hidden="true" />
+                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-black/20 sm:mx-0 sm:h-10 sm:w-10">
+                        <PlusCircleIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
                       </div>
-                      <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <div className="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <DialogTitle
                           as="h3"
-                          className="text-base font-semibold leading-6 text-gray-900"
+                          className="text-base font-semibold leading-6"
                         >
-                          Изменение названия аудитории
+                          Создание учебной группы
                         </DialogTitle>
                         <div className="mt-4">
+                          <ErrorNotification message={errMsg} />
+
+                          <div className="mt-2">Название</div>
                           <input
                             type="text"
-                            id="auditorium"
-                            name="auditorium"
-                            required={true}
                             value={value}
                             onChange={(e) => setValue(e.target.value)}
+                            placeholder="Учебная группа..."
+                            required
                             autoComplete="off"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="p-2 rounded w-full bg-slate-500"
+                          />
+
+                          <div className="mt-2">Преподаватель</div>
+                          <MyCombobox
+                            items={teachers}
+                            selected={selectedTeacher}
+                            setSelected={setSelectedTeacher}
+                          />
+                          <div className="mt-2">Категория</div>
+                          <MyCombobox
+                            items={categories}
+                            selected={selectedCategory}
+                            setSelected={setSelectedCategory}
                           />
                         </div>
-                        <p className="text-sm text-red-500">{errMsg}</p>
-                        {/* <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          Изменить аудиторию?
-                        </p>
-                      </div> */}
                       </div>
                     </div>
                   </div>
-                  <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button
+                  <div className="bg-black/20 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <input
                       type="submit"
+                      value="Создать"
                       className="inline-flex w-full justify-center rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 sm:ml-3 sm:w-auto"
-                    >
-                      Сохранить
-                    </button>
+                    />
                     <button
                       type="button"
                       className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
@@ -146,8 +143,11 @@ export const ModalEditAuditorium = ({ auditorium, isOpen, setIsOpen }) => {
   );
 };
 
-ModalEditAuditorium.propTypes = {
+ModalCreateStudyGroup.propTypes = {
+  addStudyGroup: PropTypes.func.isRequired,
+  setErrMsg: PropTypes.func.isRequired,
+  teachers: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  auditorium: PropTypes.object.isRequired,
 };

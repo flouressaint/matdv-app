@@ -61,6 +61,9 @@ export const Lessons = () => {
     }
   };
 
+  const [auditoriums, setAuditoriums] = useState([]);
+  const [studyGroups, setStudyGroups] = useState([]);
+
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -79,8 +82,36 @@ export const Lessons = () => {
       }
     };
 
+    const getAuditoriums = async () => {
+      try {
+        const response = await axiosPrivate.get("/api/v1/admin/auditoriums", {
+          signal,
+        });
+        console.log(response.data);
+        isMounted && setAuditoriums(response.data.items);
+      } catch (err) {
+        console.error(err);
+        navigate("/login", { state: { from: location }, replace: true });
+      }
+    };
+
+    const getStudyGroups = async () => {
+      try {
+        const response = await axiosPrivate.get("/api/v1/admin/studyGroups", {
+          signal,
+        });
+        console.log(response.data);
+        isMounted && setStudyGroups(response.data.items);
+      } catch (err) {
+        console.error(err);
+        navigate("/login", { state: { from: location }, replace: true });
+      }
+    };
+
     if (effectRun.current) {
       getLessons();
+      getAuditoriums();
+      getStudyGroups();
     }
 
     return () => {
@@ -96,13 +127,14 @@ export const Lessons = () => {
         <div className="w-full">
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 flex-row">
-              <div className="text-3xl font-bold">Расписание</div>
+              <div className="text-3xl font-bold">Расписание занятий</div>
               <div>{errMsg}</div>
               <button
                 onClick={() => {
                   let date = new Date(startDate);
                   setStartDate(date.setDate(date.getDate() - 7));
                 }}
+                className="bg-slate-500 p-2 rounded-lg hover:bg-slate-400"
               >
                 <ArrowLeftIcon className="size-6" />
               </button>
@@ -111,6 +143,7 @@ export const Lessons = () => {
                   let date = new Date(startDate);
                   setStartDate(date.setDate(date.getDate() + 7));
                 }}
+                className="bg-slate-500 p-2 rounded-lg hover:bg-slate-400"
               >
                 <ArrowRightIcon className="size-6" />
               </button>
@@ -163,6 +196,8 @@ export const Lessons = () => {
                         key={lesson.id}
                         lesson={lesson}
                         deleteLesson={deleteLesson}
+                        auditoriums={auditoriums}
+                        studyGroups={studyGroups}
                       />
                     ))}
                 </div>

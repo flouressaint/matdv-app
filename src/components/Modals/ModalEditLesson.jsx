@@ -11,9 +11,14 @@ import { PencilIcon } from "@heroicons/react/24/outline";
 import { ErrorNotification } from "../Notification";
 import { MyCombobox } from "../MyComboBox";
 import { useAxiosPrivate } from "../../hooks/useAxiosPrivate";
-import { useNavigate, useLocation } from "react-router-dom";
 
-export const ModalEditLesson = ({ lesson, isOpen, setIsOpen }) => {
+export const ModalEditLesson = ({
+  lesson,
+  auditoriums,
+  studyGroups,
+  isOpen,
+  setIsOpen,
+}) => {
   const cancelButtonRef = useRef(null);
   const [editingLesson, setEditingLesson] = useState(lesson);
   const [errMsg, setErrMsg] = useState("");
@@ -62,55 +67,7 @@ export const ModalEditLesson = ({ lesson, isOpen, setIsOpen }) => {
     }
   }, [editingLesson, setErrMsg]);
 
-  const navigate = useNavigate();
-  const location = useLocation();
   const axiosPrivate = useAxiosPrivate();
-  const effectRun = useRef(false);
-  const [auditoriums, setAuditoriums] = useState([]);
-  const [studyGroups, setStudyGroups] = useState([]);
-
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    const getAuditoriums = async () => {
-      try {
-        const response = await axiosPrivate.get("/api/v1/admin/auditoriums", {
-          signal,
-        });
-        // console.log(response.data);
-        isMounted && setAuditoriums(response.data.items);
-      } catch (err) {
-        console.error(err);
-        navigate("/login", { state: { from: location }, replace: true });
-      }
-    };
-
-    const getStudyGroups = async () => {
-      try {
-        const response = await axiosPrivate.get("/api/v1/admin/studyGroups", {
-          signal,
-        });
-        // console.log(response.data);
-        isMounted && setStudyGroups(response.data.items);
-      } catch (err) {
-        console.error(err);
-        navigate("/login", { state: { from: location }, replace: true });
-      }
-    };
-
-    if (effectRun.current) {
-      getAuditoriums();
-      getStudyGroups();
-    }
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-      effectRun.current = true;
-    };
-  }, [axiosPrivate, location, navigate]);
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -256,6 +213,8 @@ export const ModalEditLesson = ({ lesson, isOpen, setIsOpen }) => {
 };
 
 ModalEditLesson.propTypes = {
+  auditoriums: PropTypes.array.isRequired,
+  studyGroups: PropTypes.array.isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
   lesson: PropTypes.object.isRequired,

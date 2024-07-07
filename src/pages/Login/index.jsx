@@ -1,16 +1,17 @@
 import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import axios from "../../api/axios";
+import { ErrorNotification } from "../../components/Notification";
+
 const LOGIN_URL = "/api/v1/auth/login";
 
 export const Login = () => {
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/admin/auditoriums";
 
   const usernameRef = useRef();
   const errRef = useRef();
@@ -37,13 +38,10 @@ export const Login = () => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
-      // console.log(JSON.stringify(response?.data));
-      //   console.log(JSON.stringify(response));
       const token = response?.data?.token;
       const refreshToken = response?.data?.refresh_token;
-      //   const roles = response?.data?.roles;
       setAuth({
         username,
         token,
@@ -51,7 +49,13 @@ export const Login = () => {
       });
       setUsername("");
       setPassword("");
-      navigate(from, { replace: true });
+      if (jwtDecode(token).roles.includes("ROLE_ADMIN")) {
+        navigate("/admin/auditoriums");
+      } else if (jwtDecode(token).roles.includes("ROLE_TEACHER")) {
+        navigate("/teacher/schedule");
+      } else {
+        navigate("/schedule");
+      }
     } catch (err) {
       console.log(err);
       if (!err?.response.data) {
@@ -59,7 +63,7 @@ export const Login = () => {
       } else if (err.response?.status === 400) {
         setErrMsg("Missing Username or Password");
       } else if (err.response?.status === 401) {
-        setErrMsg("Unauthorized");
+        setErrMsg("Неверный логин или пароль");
       } else {
         setErrMsg("Login Failed");
       }
@@ -68,44 +72,51 @@ export const Login = () => {
   };
 
   return (
-    <section>
-      <p
-        ref={errRef}
-        className={errMsg ? "errmsg" : "offscreen"}
-        aria-live="assertive"
-      >
-        {errMsg}
-      </p>
-      <h1>Sign In</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          ref={usernameRef}
-          autoComplete="off"
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-          required
-        />
-
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          required
-        />
-        <button>Sign In</button>
-      </form>
-      <p>
-        Need an Account?
-        <br />
-        <span className="line">
-          <Link to="/register">Sign Up</Link>
-        </span>
-      </p>
-    </section>
+    <div className="w-screen min-h-svh flex flex-col">
+      <div className="flex flex-row justify-around items-center p-3">
+        <div className="text-sm">Дальневосточный центр математики</div>
+        <NavLink
+          to="/"
+          className="bg-black hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Главная
+        </NavLink>
+      </div>
+      <div className="flex flex-col gap-10 items-center relative flex-grow h-full p-10 py-28 rounded-xl bg-black">
+        <div className="md:w-1/4 font-bold">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <div className="text-3xl text-center  text-white">Авторизация</div>
+            <ErrorNotification message={errMsg} />
+            <input
+              className="border-2 border-white rounded-lg p-3"
+              type="text"
+              ref={usernameRef}
+              placeholder="Имя пользователя"
+              autoComplete="off"
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
+              required
+            />
+            <input
+              className="border-2 border-white rounded-lg p-3"
+              type="password"
+              placeholder="Пароль"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              required
+            />
+            <button className="bg-orange-500  text-white hover:bg-orange-700 rounded-lg font-bold py-2 px-4">
+              Авторизоваться
+            </button>
+            <NavLink
+              to="/register"
+              className="bg-black text-center border hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Регистрация
+            </NavLink>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };

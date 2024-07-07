@@ -85,7 +85,12 @@ export const ModalEditStudyGroupCategory = ({
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <form>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleEdit(value);
+                  }}
+                >
                   <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
                       <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-violet-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -104,6 +109,7 @@ export const ModalEditStudyGroupCategory = ({
                             id="category"
                             name="category"
                             value={value}
+                            required
                             onChange={(e) => setValue(e.target.value)}
                             autoComplete="off"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -120,11 +126,8 @@ export const ModalEditStudyGroupCategory = ({
                   </div>
                   <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button
-                      type="button"
+                      type="submit"
                       className="inline-flex w-full justify-center rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 sm:ml-3 sm:w-auto"
-                      onClick={() => {
-                        handleEdit(value);
-                      }}
                     >
                       Сохранить
                     </button>

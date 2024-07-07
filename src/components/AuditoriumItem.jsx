@@ -31,8 +31,8 @@ export const AuditoriumItem = ({ auditorium, deleteAuditorium }) => {
         setIsOpen={setIsOpenEdit}
       />
       <ModalDelete
-        title="удалить аудиторию"
-        body="удалить аудиторию?"
+        title="Удаление аудитории"
+        body="Вы действительно хотите удалить аудиторию?"
         isOpen={isOpenDelete}
         setIsOpen={setIsOpenDelete}
         handleDelete={() => deleteAuditorium(auditorium.id)}
