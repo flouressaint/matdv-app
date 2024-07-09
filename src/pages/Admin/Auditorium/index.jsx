@@ -91,6 +91,7 @@ export const Auditorium = () => {
 
   return (
     <div className="flex flex-col m-5 gap-2">
+      <div className="text-3xl font-bold">Аудитории</div>
       <h1 className="text-red-500">{errMsg}</h1>
       <AuditoriumForm addAuditorium={addAuditorium} setErrMsg={setErrMsg} />
       <div className="flex flex-col my-5 gap-5">

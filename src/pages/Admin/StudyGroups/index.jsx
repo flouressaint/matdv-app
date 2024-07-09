@@ -124,15 +124,15 @@ export const StudyGroups = () => {
   const [createIsOpen, setCreateIsOpen] = useState(false);
 
   return (
-    <div className="flex flex-col p-5 gap-2 bg-slate-600 w-full text-white">
+    <div className="flex flex-col p-5 gap-2  w-full ">
       <div className="flex flex-row justify-between items-center">
         <div className="text-3xl font-bold">Учебные группы</div>
         <button
           onClick={() => setCreateIsOpen(!createIsOpen)}
-          className="text-base flex flex-row gap-2 bg-slate-500 p-2 rounded-lg hover:bg-slate-400"
+          className="text-base flex flex-row gap-2 focus:bg-blue-700 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700"
         >
           <PlusCircleIcon className="size-6" />
-          <div>Добавить учебную группу</div>
+          <div>Добавить</div>
         </button>
       </div>
       <h1 className="text-red-500">{errMsg}</h1>

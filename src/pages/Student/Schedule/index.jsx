@@ -13,7 +13,7 @@ export const Schedule = () => {
 
   const now = new Date();
   const [startDate, setStartDate] = useState(
-    new Date(now.setDate(now.getDate() - now.getDay())),
+    new Date(now.setDate(now.getDate() - now.getDay()))
   );
   const days = [];
   let date = new Date(startDate);
@@ -52,7 +52,7 @@ export const Schedule = () => {
 
   if (lessons.length === 0) {
     return (
-      <div className="flex relative flex-grow flex-col p-5 gap-2 bg-slate-600 w-full text-white">
+      <div className="flex relative flex-grow flex-col p-5 gap-2 w-full">
         <div className="flex flex-col mb-5 gap-5">
           <div className="w-full">
             <div className="flex flex-col gap-2">
@@ -84,13 +84,14 @@ export const Schedule = () => {
   }
 
   return (
-    <div className="flex relative flex-grow flex-col p-5 gap-2 bg-slate-600 w-full text-white">
+    <div className="flex relative flex-grow flex-col p-5 gap-2 w-full">
       <div className="flex flex-col mb-5 gap-5">
         <div className="w-full">
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 flex-row">
-              <div className="text-3xl font-bold">Расписание</div>
+              <div className="text-3xl font-bold">Дневник</div>
               <button
+                className="bg-transparent dark:bg-violet-500  hover:bg-blue-200 text-blue-700 font-semibold dark:text-white py-1 px-4 border border-blue-500 dark:border-transparent hover:border-transparent dark:hover:border-white rounded"
                 onClick={() => {
                   let date = new Date(startDate);
                   setStartDate(date.setDate(date.getDate() - 7));
@@ -99,6 +100,7 @@ export const Schedule = () => {
                 <ArrowLeftIcon className="size-6" />
               </button>
               <button
+                className="bg-transparent dark:bg-violet-500  hover:bg-blue-200 text-blue-700 font-semibold dark:text-white py-1 px-4 border border-blue-500 dark:border-transparent hover:border-transparent dark:hover:border-white rounded"
                 onClick={() => {
                   let date = new Date(startDate);
                   setStartDate(date.setDate(date.getDate() + 7));
@@ -112,7 +114,7 @@ export const Schedule = () => {
                 key={day.getDate()}
                 className="flex flex-col gap-1 border-b p-3 border-zinc-200 dark:border-zinc-700"
               >
-                <div className="flex flex-row items-center gap-2 text-lg font-bold">
+                <div className="flex flex-row items-center gap-2 text-lg">
                   <div>
                     {day.toLocaleDateString("ru-RU", {
                       weekday: "long",
@@ -121,7 +123,7 @@ export const Schedule = () => {
                     })}
                   </div>
                 </div>
-                <div className="flex flex-row gap-1 flex-wrap">
+                <div className="flex flex-row gap-3 flex-wrap">
                   {lessons
                     .filter(
                       (lesson) =>
@@ -131,7 +133,7 @@ export const Schedule = () => {
                           .split("T")[0]
                           .split(".")
                           .reverse()
-                          .join("-"),
+                          .join("-")
                     )
                     .map((lesson) => (
                       <StudentLessonItem key={lesson.id} lesson={lesson} />

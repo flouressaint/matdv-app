@@ -91,6 +91,7 @@ export const StudyGroupCategory = () => {
 
   return (
     <div className="flex flex-col m-5 gap-2 lg:w-full">
+      <div className="text-3xl font-bold">Категории учебных групп</div>
       <h1 className="text-red-500">{errMsg}</h1>
       <StudyGroupCategoryForm addCategory={addCategory} setErrMsg={setErrMsg} />
       <div className="flex flex-col my-5 gap-5">

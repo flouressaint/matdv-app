@@ -192,11 +192,11 @@ export const ModalAddHometask = ({ lesson, isOpen, setIsOpen }) => {
                     e.preventDefault();
                     handleEdit(hometask);
                   }}
-                  className="flex flex-col gap-2 bg-slate-600 w-full text-white"
+                  className="flex flex-col gap-2 w-full"
                 >
                   <div className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
-                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-black/20 sm:mx-0 sm:h-10 sm:w-10">
+                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-violet-100 sm:mx-0 sm:h-10 sm:w-10">
                         <PencilIcon className="h-6 w-6" aria-hidden="true" />
                       </div>
                       <div className="mt-3 text-center w-full sm:ml-4 sm:mt-0 sm:text-left">
@@ -205,7 +205,7 @@ export const ModalAddHometask = ({ lesson, isOpen, setIsOpen }) => {
                           className="text-base items-center flex flex-row justify-between font-semibold leading-6"
                         >
                           <div>Домашнее задание</div>
-                          <div className="text-sm bg-orange-500 rounded border hover:bg-orange-400 p-3">
+                          <div className="text-sm text-white bg-orange-500 rounded border hover:bg-orange-400 p-3">
                             Задать адаптивный тест
                           </div>
                         </DialogTitle>
@@ -220,7 +220,7 @@ export const ModalAddHometask = ({ lesson, isOpen, setIsOpen }) => {
                                   description: e.target.value,
                                 });
                               }}
-                              className="mt-3 block w-full resize-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white 
+                              className="mt-3 block w-full resize-none rounded-lg border border-gray-300 bg-gray-50 py-1.5 px-3 text-sm/6
                                   focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
                               rows={8}
                               placeholder="Описание домашнего задания..."
@@ -238,19 +238,17 @@ export const ModalAddHometask = ({ lesson, isOpen, setIsOpen }) => {
                                   maxScore: parseInt(e.target.value),
                                 });
                               }}
-                              className="block w-16 resize-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white 
+                              className="block w-16 resize-none rounded-lg bg-gray-50 border border-gray-300 py-1.5 px-3 text-sm/6
                                   focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
                             />
                           </Field>
-                          <div>Ученики</div>
+                          <div className="mt-3">Оценка учеников</div>
                           {!scores && <div>loading</div>}
                           {scores &&
                             scores.map((student) => (
                               <div key={student.studentId}>
-                                <div className="flex flex-row justify-between items-center border-b  border-gray-500 hover:bg-gray-500 rounded-md p-2">
-                                  <div className="text-sm font-bold">
-                                    {student.name}
-                                  </div>
+                                <div className="flex flex-row justify-between items-center border-b border-gray-300 hover:bg-gray-50 rounded-md p-2">
+                                  <div className="text-sm">{student.name}</div>
                                   <input
                                     type="number"
                                     min={0}
@@ -265,8 +263,8 @@ export const ModalAddHometask = ({ lesson, isOpen, setIsOpen }) => {
                                         )
                                       );
                                     }}
-                                    className="w-16 text-center resize-none rounded-lg bg-white/5 py-1.5 px-3 text-sm/6 text-white
-                      focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+                                    className="block w-16 resize-none rounded-lg bg-gray-50 border border-gray-300 py-1.5 px-3 text-sm/6
+                                  focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
                                   />
                                 </div>
                               </div>
@@ -275,7 +273,7 @@ export const ModalAddHometask = ({ lesson, isOpen, setIsOpen }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-black/20 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <input
                       type="submit"
                       value="Сохранить"

@@ -14,13 +14,13 @@ export const AuditoriumItem = ({ auditorium, deleteAuditorium }) => {
       <div className="flex flex-row gap-2">
         <button
           onClick={() => setIsOpenEdit(true)}
-          className="bg-transparent dark:bg-violet-500  hover:bg-violet-500 text-blue-700 font-semibold hover:text-white dark:text-white py-1 px-4 border border-blue-500 dark:border-transparent hover:border-transparent dark:hover:border-white rounded"
+          className="bg-transparent dark:bg-violet-500  hover:bg-violet-200 text-blue-700 font-semibold hover:text-white dark:text-white py-1 px-4 border border-blue-500 dark:border-transparent hover:border-transparent dark:hover:border-white rounded"
         >
           <PencilIcon className="size-6 text-blue-500" />
         </button>
         <button
           onClick={() => setIsOpenDelete(true)}
-          className="bg-transparent dark:bg-red-500 hover:bg-red-500 text-red-700 dark:text-white dark:hover:border-white font-semibold hover:text-white py-1 px-4 border border-red-500 hover:border-transparent rounded"
+          className="bg-transparent dark:bg-red-500 hover:bg-red-200 text-red-700 dark:text-white dark:hover:border-white font-semibold hover:text-white py-1 px-4 border border-red-500 hover:border-transparent rounded"
         >
           <TrashIcon className="size-6 text-red-500" />
         </button>

@@ -15,7 +15,7 @@ import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
 import { Profile } from "../pages/Profile";
 import { SidebarTeacher } from "../components/SidebarTeacher";
-import { SidebarStudent } from "../components/SidebarStudent";
+// import { SidebarStudent } from "../components/SidebarStudent";
 import { Schedule as ScheduleStudent } from "../pages/Student/Schedule";
 import { StudyGroups as StudyGroupsTeacher } from "../pages/Teacher/StudyGroups";
 import { StudyGroup as StudyGroupTeacher } from "../pages/Teacher/StudyGroup";
@@ -64,11 +64,11 @@ const Navigation = () => {
                   />
                 </Route>
               </Route>
-              <Route element={<SidebarStudent />}>
-                <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
-                  <Route path="/schedule" element={<ScheduleStudent />} />
-                </Route>
+              {/* <Route element={<SidebarStudent />}> */}
+              <Route element={<RequireAuth allowedRoles={["ROLE_USER"]} />}>
+                <Route path="/schedule" element={<ScheduleStudent />} />
               </Route>
+              {/* </Route> */}
             </Route>
           </Routes>
           {/* <Footer /> */}

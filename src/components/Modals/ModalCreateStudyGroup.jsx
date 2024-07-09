@@ -71,11 +71,11 @@ export const ModalCreateStudyGroup = ({
               <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <form
                   onSubmit={handleSubmit}
-                  className="flex flex-col gap-2 bg-slate-600 w-full text-white"
+                  className="flex flex-col gap-2 w-full"
                 >
                   <div className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
-                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-black/20 sm:mx-0 sm:h-10 sm:w-10">
+                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-violet-100 sm:mx-0 sm:h-10 sm:w-10">
                         <PlusCircleIcon
                           className="h-6 w-6"
                           aria-hidden="true"
@@ -99,7 +99,7 @@ export const ModalCreateStudyGroup = ({
                             placeholder="Учебная группа..."
                             required
                             autoComplete="off"
-                            className="p-2 rounded w-full bg-slate-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                           />
 
                           <div className="mt-2">Преподаватель</div>
@@ -118,7 +118,7 @@ export const ModalCreateStudyGroup = ({
                       </div>
                     </div>
                   </div>
-                  <div className="bg-black/20 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <input
                       type="submit"
                       value="Создать"

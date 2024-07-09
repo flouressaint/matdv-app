@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "../../hooks/useAxiosPrivate";
 import { ErrorNotification } from "../Notification";
 import { MyCombobox } from "../MyComboBox";
-import { PlusCircleIcon } from "@heroicons/react/20/solid";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export const ModalCreateLesson = ({ lesson, setLesson, isOpen, setIsOpen }) => {
   const cancelButtonRef = useRef(null);
@@ -143,17 +143,17 @@ export const ModalCreateLesson = ({ lesson, setLesson, isOpen, setIsOpen }) => {
                     e.preventDefault();
                     createLesson(lesson);
                   }}
-                  className="flex flex-col gap-2 bg-slate-600 w-full text-white"
+                  className="flex flex-col gap-2 w-full"
                 >
                   <div className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
-                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-black/20 sm:mx-0 sm:h-10 sm:w-10">
+                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-violet-100 sm:mx-0 sm:h-10 sm:w-10">
                         <PlusCircleIcon
                           className="h-6 w-6"
                           aria-hidden="true"
                         />
                       </div>
-                      <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <div className="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <DialogTitle
                           as="h3"
                           className="text-base font-semibold leading-6"
@@ -169,7 +169,7 @@ export const ModalCreateLesson = ({ lesson, setLesson, isOpen, setIsOpen }) => {
                             onChange={(e) =>
                               setLesson({ ...lesson, date: e.target.value })
                             }
-                            className="p-2 rounded w-full bg-slate-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required={true}
                           />
                           <label>Время начала</label>
@@ -182,7 +182,7 @@ export const ModalCreateLesson = ({ lesson, setLesson, isOpen, setIsOpen }) => {
                                 startTime: e.target.value,
                               })
                             }
-                            className="p-2 rounded w-full bg-slate-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required={true}
                           />
                           <label>Время окончания</label>
@@ -196,7 +196,7 @@ export const ModalCreateLesson = ({ lesson, setLesson, isOpen, setIsOpen }) => {
                                 endTime: e.target.value,
                               })
                             }
-                            className="p-2 rounded w-full bg-slate-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required={true}
                           />
                           <label>Аудитория</label>
@@ -219,7 +219,7 @@ export const ModalCreateLesson = ({ lesson, setLesson, isOpen, setIsOpen }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-black/20 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <input
                       type="submit"
                       value="Создать"

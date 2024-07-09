@@ -43,7 +43,7 @@ export const StudyGroups = () => {
   }, [axiosPrivate, location, navigate]);
 
   return (
-    <div className="flex flex-col p-5 gap-2 bg-slate-600 w-full text-white">
+    <div className="flex flex-col p-5 gap-2 w-full">
       <div className="flex flex-row justify-between items-center">
         <div className="text-3xl font-bold">Учебные группы</div>
       </div>
@@ -54,7 +54,7 @@ export const StudyGroups = () => {
           studyGroups.map((group) => (
             <div
               key={group.id}
-              className="flex flex-row justify-between items-center border-b  border-gray-500 hover:bg-gray-500 rounded-md p-2"
+              className="flex flex-row justify-between items-center border-b border-gray-200 rounded-md p-2"
             >
               <NavLink
                 to={`/teacher/study-groups/${group.id}`}
@@ -64,7 +64,7 @@ export const StudyGroups = () => {
                   <div className="text-sm border p-2 text-wrap rounded-xl">
                     {group.category.name}
                   </div>
-                  <div className="text-lg font-bold">{group.name}</div>
+                  <div className="text-lg">{group.name}</div>
                 </div>
                 <div className="text-sm">
                   Преподаватель: {group.teacher.name}

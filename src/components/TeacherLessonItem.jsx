@@ -12,11 +12,11 @@ export const TeacherLessonItem = ({ lesson }) => {
 
   return (
     <div
-      className="bg-blue-500 w-72 border p-3 rounded hover:bg-blue-400"
+      className="bg-blue-100 w-72 border border-gray-300 shadow-md p-3 rounded-xl hover:bg-blue-200"
       onClick={() => setIsOpen(true)}
     >
       <div className="flex flex-col  text-sm">
-        <div className="font-bold text-lg">{lesson.studyGroup.name}</div>
+        <div className="text-lg">{lesson.studyGroup.name}</div>
         <div className="flex flex-col text-base">
           <div className="flex flex-row w-1/2 items-center gap-1">
             <ClockIcon className="size-4" />
@@ -28,9 +28,9 @@ export const TeacherLessonItem = ({ lesson }) => {
           </div>
           <div>{lesson.studyGroup.teacher.name}</div>
           {lesson.hometask && (
-            <div className="flex flex-row items-center gap-1">
-              <BookOpenIcon className="size-4" />
-              {lesson.hometask.description}
+            <div>
+              <BookOpenIcon className="size-4 inline-flex mr-1" />
+              Д/З: {lesson.hometask.description}
             </div>
           )}
         </div>

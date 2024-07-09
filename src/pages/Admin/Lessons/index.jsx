@@ -56,7 +56,7 @@ export const Lessons = () => {
       } else if (err.response?.status === 401) {
         setErrMsg("Недостаточно прав");
       } else {
-        setErrMsg("Не удалось удалить аудиторию");
+        setErrMsg("Не удалось удалить занятие");
       }
     }
   };
@@ -122,7 +122,7 @@ export const Lessons = () => {
   }, [count, axiosPrivate, location, navigate]);
 
   return (
-    <div className="flex flex-col p-5 gap-2 bg-slate-600 w-full text-white">
+    <div className="flex flex-col p-5 gap-2w-full">
       <div className="flex flex-col mb-5 gap-5">
         <div className="w-full">
           <div className="flex flex-col gap-2">
@@ -134,7 +134,7 @@ export const Lessons = () => {
                   let date = new Date(startDate);
                   setStartDate(date.setDate(date.getDate() - 7));
                 }}
-                className="bg-slate-500 p-2 rounded-lg hover:bg-slate-400"
+                className="bg-transparent dark:bg-violet-500  hover:bg-blue-200 text-blue-700 font-semibold dark:text-white py-1 px-4 border border-blue-500 dark:border-transparent hover:border-transparent dark:hover:border-white rounded"
               >
                 <ArrowLeftIcon className="size-6" />
               </button>
@@ -143,7 +143,7 @@ export const Lessons = () => {
                   let date = new Date(startDate);
                   setStartDate(date.setDate(date.getDate() + 7));
                 }}
-                className="bg-slate-500 p-2 rounded-lg hover:bg-slate-400"
+                className="bg-transparent dark:bg-violet-500  hover:bg-blue-200 text-blue-700 font-semibold dark:text-white py-1 px-4 border border-blue-500 dark:border-transparent hover:border-transparent dark:hover:border-white rounded"
               >
                 <ArrowRightIcon className="size-6" />
               </button>
@@ -153,7 +153,14 @@ export const Lessons = () => {
                 key={day.getDate()}
                 className="flex flex-col gap-1 border-b p-3 border-zinc-200 dark:border-zinc-700"
               >
-                <div className="flex flex-row items-center gap-2 text-lg font-bold">
+                <div className="flex flex-row items-center gap-2 text-lg ">
+                  <div>
+                    {day.toLocaleDateString("ru-RU", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                    })}
+                  </div>
                   <button
                     onClick={() => {
                       setLesson({
@@ -167,19 +174,12 @@ export const Lessons = () => {
                       });
                       setCreateIsOpen(!createIsOpen);
                     }}
-                    className=" text-base bg-slate-500 p-2 rounded-lg hover:bg-slate-400"
+                    className="bg-transparent dark:bg-violet-500  hover:bg-blue-200 text-blue-700 font-semibold dark:text-white py-1 px-3 border border-blue-500 dark:border-transparent hover:border-transparent dark:hover:border-white rounded-xl"
                   >
                     <PlusCircleIcon className="size-6" />
                   </button>
-                  <div>
-                    {day.toLocaleDateString("ru-RU", {
-                      weekday: "long",
-                      day: "numeric",
-                      month: "long",
-                    })}
-                  </div>
                 </div>
-                <div className="flex flex-row gap-1 flex-wrap">
+                <div className="flex flex-row gap-3 flex-wrap">
                   {lessons
                     .filter(
                       (lesson) =>

@@ -27,12 +27,12 @@ export const LessonItem = ({
 
   return (
     <div>
-      <div className="flex flex-col bg-blue-500 w-72 border p-3 rounded text-sm">
-        <div className="flex justify-between flex-row">
-          <div className="font-bold text-lg py-2">{lesson.studyGroup.name}</div>
+      <div className="flex flex-col bg-blue-100 w-72 border border-gray-300 shadow-md p-3 rounded-xl text-sm">
+        <div className="flex justify-between items-center flex-row">
+          <div className="text-lg">{lesson.studyGroup.name}</div>
           <Menu>
-            <MenuButton className="inline-flex items-center gap-2 rounded-md bg-white/5 py-1.5 h-min px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-white/10 data-[open]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white">
-              <EllipsisHorizontalIcon className="size-4 fill-white/60" />
+            <MenuButton className="inline-flex items-center gap-2 rounded-md bg-blue-200 py-1.5 h-min px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-blue-300 data-[open]:bg-blue-300 data-[focus]:outline-1 data-[focus]:outline-white">
+              <EllipsisHorizontalIcon className="size-4 fill-black/60" />
             </MenuButton>
             <Transition
               enter="transition ease-out duration-75"
@@ -44,24 +44,24 @@ export const LessonItem = ({
             >
               <MenuItems
                 anchor="bottom end"
-                className="w-52 origin-top-right rounded-xl border border-white/5 bg-blue-600 p-1 text-sm/6 text-white [--anchor-gap:var(--spacing-1)] focus:outline-none"
+                className="w-52 origin-top-right rounded-xl border border-black/5 bg-blue-200 shadow-inner p-1 text-sm/6 [--anchor-gap:var(--spacing-1)] focus:outline-none"
               >
                 <MenuItem>
                   <button
                     onClick={() => setIsOpenEdit(true)}
-                    className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10"
+                    className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10"
                   >
-                    <PencilIcon className="size-4 fill-white/30" />
+                    <PencilIcon className="size-4 fill-black/30" />
                     Изменить
                   </button>
                 </MenuItem>
-                <div className="my-1 h-px bg-white/5" />
+                <div className=" h-px bg-white/5" />
                 <MenuItem>
                   <button
                     onClick={() => setIsOpenDelete(true)}
-                    className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10"
+                    className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10"
                   >
-                    <TrashIcon className="size-4 fill-white/30" />
+                    <TrashIcon className="size-4 fill-black/30" />
                     Удалить
                   </button>
                 </MenuItem>
